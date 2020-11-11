@@ -1,0 +1,530 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+ <script src="Keydrown.min.js"></script>
+ <script>
+     var bosshealth = 100;
+     var bossshieldhealth = 5;
+     var bossyx = 660;
+     var bossyy = 180;
+     var posx = 630;
+     var posy = 200;
+     var jeckboss = 0;
+     var jeckbossawake = 0;
+   //điều khiển nhân vật
+   document.onkeydown = myMove;
+   var timer = 90;
+   var fly = 500;
+   var score = 0;
+   var pos = 600;
+   var shit = 0;
+   var keycode;
+   var checks = 0;
+   function checkbosshealth() {
+       if (x + 30 >= bossyx && jeckboss === 0) {
+           if (fly <= bossyy + 10 && jeckboss === 0)
+               if (x <= bossyx + 10 && jeckboss === 0)
+                   if (fly + 30 >= bossyy && jeckboss === 0) {
+                       jeckbossawake = bosshealth;
+                      jeckboss = 1;
+                       var health = document.getElementById("bosshealth").innerHTML = --bosshealth;
+                   } 
+       }       
+       if (x + 30 < bossyx) jeckboss = 0;
+   }
+   function myMove() {
+       var flys = document.getElementById("spaceship");
+       checkKeycode();
+       function checkKeycode(e) {
+           if (window.event)
+           { keycode = window.event.keyCode; }
+           if (e) {
+               keycode = e.which;
+           }
+       }
+       if (keycode === 75 && shit === 0) {
+           if (timer < 200) {
+               timer = 0;
+               score = 0;
+               shit++;
+               var id = setInterval(frame1, 0.1);
+           }
+           else {
+               shit++;
+               timer = 0;
+               var id = setInterval(frame1, 0.1);
+           }
+       }
+       if (keycode === 74 && shit === 1 ) {
+           if (timer < 200) {
+               timer = 0;
+               score = 0;
+               shit--;
+               var ids = setInterval(frame2, 0.1);
+           }
+           else {
+               shit--;
+               timer = 0;
+               var ids = setInterval(frame2, 0.1);
+           }
+       }
+       if (checks === 0) {
+           var tr = setInterval(fall, 0.1);
+           checks++;
+       }
+       function fall() {
+           var gravity = 0;
+           if (score > 30) {
+               if (fly > 500) fly = 500;
+               fly++;
+               fly++;
+               flys.style.top = fly + "px";
+           }
+       }
+       function frame1() {
+           if (keycode === 74) clearInterval(id);
+           pos++;
+           pos++;
+           var h = document.getElementById("score").innerHTML = score++;
+           if (score > 800) score = 400;
+           timer++;
+           fly--;
+           if (fly < 0) fly = 0;
+           flys.style.top = fly + "px";
+           checkbosshealth();
+       }
+       function frame2() {
+           if (keycode === 75) clearInterval(ids);
+           pos--;
+           pos--;
+           var h = document.getElementById("score").innerHTML = score++;
+           if (score > 800) score = 400;
+           timer++;
+           fly--;
+           if (fly < 0) fly = 0;
+           flys.style.top = fly + "px";
+           checkbosshealth();
+       }
+   }
+     //cảnh
+   window.onload = all;
+   function all() {
+       boss();
+       obs1();
+       setTimeout(obs2, 1000);
+       setTimeout(obs3, 2000);
+       setTimeout(obs4, 3000);
+       setTimeout(obs5, 4000);
+       setTimeout(obs6, 5000);
+       setTimeout(obs7, 6000);
+       setTimeout(obs8, 7000);
+   }
+   function obstacle(fun) {
+   var xz = 1400;
+   var yz = Math.floor(Math.random() * 500) + 1;
+   var he = Math.floor(Math.random() * 50) + 10;
+   var wi = he;
+       setInterval(get, 0.1);
+       function get() {
+           var jk = document.getElementById("spaceship");
+           var t = document.getElementById("ki").innerHTML = x;
+           var h = jk.style.top;
+           var k = document.getElementById("kiy").innerHTML = fly;
+           var yu = document.getElementById("obs" + fun);
+           yu.style.left = xz + "px";
+           yu.style.top = yz + "px";
+           yu.style.height = he + "px";
+           yu.style.width = wi + "px";
+           if (x + 30 >= xz) {
+               if (fly <= yz + he)
+                   if (x + 15 <= xz + wi)
+                       if (fly + 30 >= yz) {                          
+                           xz = 1400 + xz;
+                           yz = Math.floor(Math.random() * 300) + 1;
+                           he = Math.floor(Math.random() * 100) + 30;
+                           wi = he;
+                       }
+           }
+           xz--;
+           if (xz === -150) {
+               xz = 1400;
+               yz = Math.floor(Math.random() * 300) + 1;
+               he = Math.floor(Math.random() * 100) + 30;
+               wi = he;
+           }
+       }
+   }
+   function obs1() {
+       obstacle(1);
+       setInterval(turnFan1, 2);
+   }
+   function obs2() {
+       obstacle(2);
+       setInterval(turnFan2, 2);
+   }
+   function obs3() {
+       obstacle(3);
+       setInterval(turnFan3, 2);
+   }
+   function obs4() {
+       obstacle(4);
+       setInterval(turnFan4, 2);
+   }
+   function obs5() {
+       obstacle(5);
+       setInterval(turnFan5, 2);
+   }
+   function obs6() {
+       obstacle(6);
+       setInterval(turnFan6, 2);
+   }
+   function obs7() {
+       obstacle(7);
+       setInterval(turnFan7, 2);
+   }
+   function obs8() {
+       obstacle(8);
+       setInterval(turnFan8, 2);
+   }
+   var turn1 = 0;
+   var turn2 = 0;
+   var turn3 = 0;
+   var turn4 = 0;
+   var turn5 = 0;
+   var turn6 = 0;
+   var turn7 = 0;
+   var turn8 = 0;
+   function turnFan1() {
+       let lk = document.getElementById("obs1");
+       turn1 += 1;
+       lk.style.transform = "rotate(" + (turn1 % 360) + "deg)"
+   }
+   function turnFan2() {
+       let lk = document.getElementById("obs2");
+       turn2 += 1;
+       lk.style.transform = "rotate(" + (turn2 % 360) + "deg)"
+   }
+   function turnFan3() {
+       let lk = document.getElementById("obs3");
+       turn3 += 1;
+       lk.style.transform = "rotate(" + (turn3 % 360) + "deg)"
+   }
+   function turnFan4() {
+       let lk = document.getElementById("obs4");
+       turn4 += 1;
+       lk.style.transform = "rotate(" + (turn4 % 360) + "deg)"
+   }
+   function turnFan5() {
+       let lk = document.getElementById("obs5");
+       turn5 += 1;
+       lk.style.transform = "rotate(" + (turn5 % 360) + "deg)"
+   }
+   function turnFan6() {
+       let lk = document.getElementById("obs6");
+       turn6 += 1;
+       lk.style.transform = "rotate(" + (turn6 % 360) + "deg)"
+   }
+   function turnFan7() {
+       let lk = document.getElementById("obs7");
+       turn7 += 1;
+       lk.style.transform = "rotate(" + (turn7 % 360) + "deg)"
+   }
+   function turnFan8() {
+       let lk = document.getElementById("obs8");
+       turn8 += 1;
+       lk.style.transform = "rotate(" + (turn8 % 360) + "deg)"
+   }
+     //boss
+   function tinhtoancackieua(x1, y1, x2, y2) {
+      a = (y1 - y2) / (x1 - x2);
+      b = y1 - x1 * a;
+      return a;
+   }
+   function tinhtoancackieub(x1, y1, x2, y2) {
+       a = (y1 - y2) / (x1 - x2);
+       b = y1 - x1 * a;
+       return b;
+   }
+       
+   
+   function boss() {
+       var elem = document.getElementById("boss");
+       var elemcon = document.getElementById("bossy");
+       var warn = document.getElementById("warningline");
+       var thun = document.getElementById("thunder");
+       var countTo3bullets = 3;
+       var checkhitboss = 0;
+       var xo = 500;
+       var yo = 100;
+       var stark = setInterval(starto, 1);
+       var thu = setInterval(thunder, 5000);
+       function starto() {
+           if (bosshealth != 100) {
+               moveto();
+               clearInterval(stark);
+           }
+       }
+       //di chuyển của con boss
+       function moveto() {     
+           if (bossshieldhealth <= 0) {
+               bossshieldhealth = 5;
+               var health = document.getElementById("bossshieldhealth").innerHTML = bossshieldhealth;
+           }
+           xo = Math.floor(Math.random() * 1100) + 1;
+           yo = Math.floor(Math.random() * 500) + 1;
+           var speedofboss = Math.floor(Math.random() * 2) + 1;
+           var id = setInterval(frameb, 0.1);
+           //đường đạn
+           function bullet(sidebullet) {
+               var frags = document.createDocumentFragment();
+               var bu = document.createElement("DIV");
+               frags.appendChild(bu);
+               var xbullet = posx;
+               var ybullet = posy;
+               var lol = xbullet;
+               var olo = ybullet;
+               bu.style.position = "absolute";
+               bu.style.width = 10 + "px";
+               bu.style.height = 10 + "px";
+               bu.style.backgroundColor = "red";
+               bu.style.top = ybullet + "px";
+               bu.style.left = xbullet + "px";
+               document.body.appendChild(frags);
+               var xx = x;
+               var yy = fly + sidebullet;
+               var a = tinhtoancackieua(xx, yy, posx, posy);
+               var b = tinhtoancackieub(xx, yy, posx, posy);
+               var bn = setInterval(bullets, 0.1);
+               var checkpos = posx;
+                   function removeshots() {
+                       clearInterval(bn);
+                       bu.remove();
+                   }
+                setTimeout(removeshots, 2100);
+               function bullets() {
+
+                   if (olo <= yy && lol >= xx) {
+                       xbullet -= 3;
+                       ybullet = a * xbullet + b;
+                       bu.style.top = ybullet + "px";
+                       bu.style.left = xbullet + "px";
+                   }
+                   if (olo <= yy && lol < xx) {
+                       xbullet += 3;
+                       ybullet = a * xbullet + b;
+                       bu.style.top = ybullet + "px";
+                       bu.style.left = xbullet + "px";
+                   }
+                   if (olo > yy && lol <= xx) {
+                       xbullet += 3;
+                       ybullet = a * xbullet + b;
+                       bu.style.top = ybullet + "px";
+                       bu.style.left = xbullet + "px";
+                   }
+                   if (olo > yy && lol > xx) {
+                       xbullet -= 3;
+                       ybullet = a * xbullet + b;
+                       bu.style.top = ybullet + "px";
+                       bu.style.left = xbullet + "px";
+                   }
+                   if (x + 30 >= xbullet) {
+                       if (fly <= ybullet + 10)
+                           if (x <= xbullet + 10)
+                               if (fly + 30 >= ybullet) {
+                                   //document.onkeydown = null;
+                               }
+                   }
+
+               }
+           }
+           var checkhealth = 0;
+           function frameb() {
+               if (posx === xo && posy === yo) { //khi boss đi hết quãng đường và dừng lại và bắn
+                   checkhealth = bosshealth;
+                   clearInterval(id);
+                   bullet(0);
+                   countTo3bullets--;
+                   if (countTo3bullets === 0) {
+                       bullet(80);
+                       bullet(-80)
+                       countTo3bullets = 3;
+                   }
+                  
+                   var ik = setTimeout(moveto, 3000);                 
+                   var il = setInterval(destroyhimwhilehesleep, 1);//
+                   var wakeup = setTimeout(wakeupboss, 2970);
+                   function destroyhimwhilehesleep() {
+                       if (bossshieldhealth <= 0) {
+                           clearTimeout(ik);//hủy bỏ lần di chuyển kế tiếp của boss (khi bossshieldhealth vẫn còn)
+                           var ig = setTimeout(moveto, 7000);
+                           clearInterval(il);// ngay khi bossshieldhealth vừa chạm đến 0, thì phải lập tức clearinterval ngay, ko thì nó sẽ lặp lại liên tục và sẽ cứ settimeout moveto liên tục
+                           var hithim = setInterval(nowhithim, 1);
+                           setTimeout(clearnowhithim, 6970);
+                           function clearnowhithim() {
+                               clearInterval(hithim);
+                           }
+                           function nowhithim() {
+                               if (bosshealth < checkhealth) {
+                                   moveto();
+                                   clearInterval(hithim);
+                                   clearTimeout(ig);
+                               }                              
+                           }
+                       }
+                   }
+                   function wakeupboss() {
+                       clearInterval(il);
+                   }
+               } else {
+                   if (posx < xo) { //khi đi chưa hết quãng đường thì tiếp tục tăng dần posx và posy
+                       posx += speedofboss;
+                       bossyx = posx + 30 + speedofboss;
+                   }
+                   else if (posx === xo || posx === xo + 1 || posx === xo - 1) { 
+                       posx = xo;
+                       bossyx = posx + 30;
+                   }
+                   else {
+                       posx -= speedofboss;
+                       bossyx = posx + 30 - speedofboss;
+                   }
+                   if (posy < yo) {
+                       posy += speedofboss;
+                       bossyy = posy - 20 + speedofboss;
+                   }
+                   else if (posy === yo || posy === yo + 1 || posy === yo - 1) {
+                       posy = yo;
+                       bossyy = posy - 20;
+                   }
+                   else {
+                       posy -= speedofboss;
+                       bossyy = posy - 20 - speedofboss;
+                   }
+                   if (bossshieldhealth <= 0) { //nếu như shield của boss bị vỡ, boss dừng lại, và cho khoảng thời gian hồi là 7s
+                       clearInterval(id);
+                       var ig = setTimeout(moveto, 7000);
+                       checkhealth = bosshealth;
+                       var hithim = setInterval(nowhithim, 1);//nếu cốc đầu thg boss lúc nó đang ngất thì nó bừng dậy
+                       setTimeout(clearnowhithim, 6970)
+                       function clearnowhithim() {
+                           clearInterval(hithim);
+                       }
+                       function nowhithim() {
+                           if (bosshealth < checkhealth) {
+                               moveto();
+                               clearInterval(hithim);
+                               clearTimeout(ig);
+                           }
+                       }
+                   }                   
+                   elem.style.top = posy + 'px';
+                   elem.style.left = posx + 'px';
+                   elemcon.style.top = bossyy + 'px';
+                   elemcon.style.left = bossyx + 'px';
+               }
+           }//frameb
+
+       }
+           function thunder() {
+               var thunx = Math.floor(Math.random() * 1400) + 1;
+               warn.style.opacity = 0.5;
+               warn.style.left = thunx + 200 + "px";
+               setTimeout(strike, 3000)
+               function strike() {
+                   thun.style.left = thunx + "px";
+                   thun.style.backgroundImage = "url('thun.gif')";
+                   warn.style.opacity = 0;
+                   setTimeout(thundisapear, 670);
+                   function thundisapear() {
+                       thun.style.left = "2000px";
+                   }
+               }
+           }//thunder
+   }
+</script>
+<style>
+    body{
+       overflow: hidden;
+       background-image: url("ddd.png");
+       background-repeat: no-repeat;
+       background-size: cover;
+    }
+    #spaceship{
+        height: 50px;
+        width: 50px;             
+        position: absolute;
+        background-image: url(space.gif);
+        background-size: contain;
+        top: 550px;
+        cursor: pointer;
+        border-radius: 120px 120px 120px 120px;
+        
+    }
+    #obs1, #obs2, #obs3, #obs4, #obs5, #obs6, #obs7, #obs8{
+        background-image: url("asteroid.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        border-radius: 0px 40px 0px 20px;
+        position: absolute;
+        z-index:-8;
+    }
+    #bossy{
+        width:20px;
+        height: 20px;
+        position: absolute;
+        background-color: gold;
+        top: 180px;
+        left: 660px;
+        border-radius: 5px;
+    }   
+    #boss{
+        width: 80px;
+        height: 30px;
+        background-color: antiquewhite;
+        position: absolute;
+        top: 200px;
+        left: 630px;
+    }
+    #bosshealth{
+
+    }
+    #thunder{
+        background-image: url(thun.gif);
+        width:420px;
+        height: 600px;
+        position: absolute;  
+        left: 3000px;
+        top: 4px;
+    }
+    #warningline{
+        width: 2px;
+        height: 600px;
+        position: absolute;
+        top: -10px;
+        left: 3200px;
+        border-left: 1px dashed red;
+    }
+</style>
+    </head>
+<body>
+    <div id="score"></div>
+    <img id="spaceship" src="space.gif" />
+    <div id="ki">222</div>
+    <div id="kiy">222</div>
+    <div id="chek">222</div>
+    <div id="bosshealth">bosshealth</div>
+    <div id="bossshieldhealth">boss shield health</div>
+    <div id="obs1"></div>
+    <div id="obs2"></div>
+    <div id="obs3"></div>
+    <div id="obs4"></div>
+    <div id="obs5"></div>
+    <div id="obs6"></div>
+    <div id="obs7"></div>
+    <div id="obs8"></div>
+    <div id="boss"></div>
+    <div id="bossy"></div>
+    <div id="thunder"></div>
+    <div id="warningline"></div>
+</body>
+</html>
